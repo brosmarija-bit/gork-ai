@@ -7,79 +7,313 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style type="text/css">
-body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;overflow:hidden;height:100vh}
-#main{max-width:640px;margin:0 auto;height:100vh;display:flex;flex-direction:column;background:#111}
-#chat{flex:1;overflow-y:auto;padding:15px;background:#111}
-.user{text-align:right;color:#0af;margin:12px 0;padding:10px 15px;background:#003366;border-radius:15px;max-width:80%;align-self:flex-end}
-.gork{color:#00ffaa;margin:12px 0;padding:10px 15px;background:#002b22;border-radius:15px;max-width:80%;align-self:flex-start}
-.typing{color:#00ffaa;font-style:italic}
-#inputbox{display:flex;padding:10px;background:#000;align-items:center;position:relative;}
-#msg{flex:1;padding:16px;background:#222;border:none;border-radius:20px;color:#fff;font-size:17px;padding-right:100px;}
-#send{padding:16px 30px;background:#00cc88;color:#000;border:none;border-radius:20px;font-weight:bold;margin-left:10px;}
+body {
+ margin: 0;
+ padding: 20px 0;
+ font-family: Arial, Helvetica, sans-serif;
+ background: none;
+ color: #fff;
+}
+
+#main {
+ width: 710px;
+ height: 900px;
+ margin: 0 auto;
+ display: flex;
+ flex-direction: column;
+ background: #111;
+ border-radius: 20px;
+ overflow: hidden;
+ box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+ position: relative;
+}
+
+#main > div:first-child {
+ text-align: center;
+ padding: 14px;
+ background: #00cc88;
+ color: #000;
+ font-size: 20px;
+ font-weight: bold;
+}
+
+#chat {
+ flex: 1;
+ overflow-y: auto;
+ padding: 15px;
+ background: transparent;
+ display: flex;
+ flex-direction: column;
+}
+
+.user, .gork {
+ margin: 12px 0;
+ padding: 10px 15px;
+ border-radius: 15px;
+ max-width: 80%;
+ display: inline-block;
+ word-wrap: break-word;
+}
+.user {
+ align-self: flex-end;
+ text-align: right;
+ color: #0af;
+ background: #003366;
+}
+.gork {
+ align-self: flex-start;
+ color: #00ffaa;
+ background: #002b22;
+}
+.typing {
+ color: #00ffaa;
+ font-style: italic;
+ align-self: flex-start;
+}
+
+/* GUMBI POD CHATOM - eden zraven drugega */
+#bottomButtons {
+ display: flex;
+ justify-content: center;
+ gap: 18px;
+ padding: 10px 0;
+ background: #000;
+ flex-wrap: wrap;
+}
+
+.socialBtn, .actionBtn {
+ width: 52px;
+ height: 52px;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 24px;
+ cursor: pointer;
+ transition: 0.3s;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+}
+.socialBtn:hover, .actionBtn:hover {
+ transform: scale(1.2);
+ box-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+.fbBtn {background: #1877F2; color: #fff;}
+.xBtn {background: #000; color: #fff;}
+.tumblrBtn {background: #35465d; color: #fff;}
+.actionBtn {
+ width: 56px;
+ height: 56px;
+ background: #00cc88;
+ color: #000;
+ font-size: 28px;
+ font-weight: bold;
+ box-shadow: 0 4px 20px rgba(0,204,136,0.6);
+}
+.actionBtn:hover {
+ box-shadow: 0 0 30px #00ffaa;
+}
+.imageBtn {
+ width: 56px;
+ height: 56px;
+ background: #9933ff;
+ color: #fff;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 28px;
+ cursor: pointer;
+ box-shadow: 0 4px 20px rgba(153,51,255,0.6);
+ transition: 0.3s;
+}
+.imageBtn:hover {
+ transform: scale(1.2);
+ box-shadow: 0 0 30px #cc66ff;
+}
+.fileBtn {
+ width: 56px;
+ height: 56px;
+ background: #ff6b35;
+ color: #fff;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 28px;
+ cursor: pointer;
+ box-shadow: 0 4px 20px rgba(255,107,53,0.6);
+ transition: 0.3s;
+}
+.fileBtn:hover {
+ transform: scale(1.2);
+ box-shadow: 0 0 30px #ff9f43;
+}
+
+/* VNOS */
+#inputbox {
+ display: flex;
+ padding: 10px;
+ background: #000;
+ align-items: center;
+}
+#msg {
+ flex: 1;
+ padding: 16px;
+ background: #222;
+ border: none;
+ border-radius: 20px;
+ color: #fff;
+ font-size: 17px;
+ padding-right: 100px;
+}
+#send {
+ padding: 16px 30px;
+ background: #00cc88;
+ color: #000;
+ border: none;
+ border-radius: 20px;
+ font-weight: bold;
+ margin-left: 10px;
+ cursor: pointer;
+}
 
 /* TIMER */
-#realTimer{position:fixed;top:12px;left:12px;background:rgba(0,0,0,0.8);color:#0f0;padding:8px 14px;border-radius:12px;font-size:17px;font-weight:bold;border:2px solid #0f0;z-index:9999;box-shadow:0 0 15px #0f0;}
-
-/* GUMB ZA POSODOBITEV - SREDINA DESNO */
-#updateBtn{
-  position:fixed;
-  top:50%;
-  right:12px;
-  transform:translateY(-50%);
-  width:62px;
-  height:62px;
-  background:#ff6600;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:32px;
-  font-weight:bold;
-  box-shadow:0 6px 25px rgba(255,102,0,0.7);
-  cursor:pointer;
-  transition:0.3s;
-  z-index:9999;
+#realTimer {
+ position: absolute;
+ top: 8px;
+ left: 8px;
+ background: rgba(0,0,0,0.8);
+ color: #0f0;
+ padding: 6px 12px;
+ border-radius: 10px;
+ font-size: 15px;
+ font-weight: bold;
+ border: 2px solid #0f0;
+ z-index: 9999;
+ box-shadow: 0 0 12px #0f0;
 }
-#updateBtn:hover{
-  transform:translateY(-50%) scale(1.15);
-  box-shadow:0 0 40px #ff6600;
+
+/* UPDATE GUMB - desno zgoraj */
+#updateBtn {
+ position: absolute;
+ top: 8px;
+ right: 8px;
+ width: 50px;
+ height: 50px;
+ background: #ff6600;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: #fff;
+ font-size: 28px;
+ font-weight: bold;
+ box-shadow: 0 4px 20px rgba(255,102,0,0.7);
+ cursor: pointer;
+ transition: 0.3s;
+ z-index: 9999;
+}
+#updateBtn:hover {
+ transform: scale(1.15);
+ box-shadow: 0 0 30px #ff6600;
 }
 
 /* VIP OKNO */
-#vipblock{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:#111;border:5px solid #00ffaa;border-radius:20px;display:none;flex-direction:column;justify-content:center;align-items:center;z-index:9999;box-shadow:0 0 40px #00ffaa;padding:20px;text-align:center;font-size:15px;}
-
-/* DESNI GUMBI */
-#actionButtons{position:fixed;right:12px;bottom:90px;display:flex;flex-direction:column;gap:12px;z-index:9998;}
-.actionBtn{width:58px;height:58px;background:#00cc88;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;font-size:28px;font-weight:bold;box-shadow:0 4px 20px rgba(0,204,136,0.6);cursor:pointer;transition:0.3s;}
-.actionBtn:hover{transform:scale(1.2);box-shadow:0 0 30px #00ffaa;}
-
-/* LEVI GUMBI - DRUŽBENA OMREŽJA */
-#socialButtons{position:fixed;left:12px;bottom:90px;display:flex;flex-direction:column;gap:12px;z-index:9998;}
-.socialBtn{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;transition:0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.6);}
-.socialBtn:hover{transform:scale(1.2);box-shadow:0 0 25px rgba(255,255,255,0.4);}
-.fbBtn{background:#1877F2;color:#fff;}
-.xBtn{background:#000;color:#fff;}
-.tumblrBtn{background:#35465d;color:#fff;}
+#vipblock {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 300px;
+ height: 300px;
+ background: #111;
+ border: 5px solid #00ffaa;
+ border-radius: 20px;
+ display: none;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ z-index: 9999;
+ box-shadow: 0 0 40px #00ffaa;
+ padding: 20px;
+ text-align: center;
+ font-size: 15px;
+}
 
 /* ADMIN GUMB */
-#editCommandsBtn{position:fixed;bottom:12px;left:12px;background:#ff6600;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;z-index:9999;display:none;box-shadow:0 0 20px #ff6600;}
+#editCommandsBtn {
+ position: absolute;
+ bottom: 12px;
+ left: 12px;
+ background: #ff6600;
+ padding: 10px 16px;
+ border-radius: 20px;
+ font-weight: bold;
+ cursor: pointer;
+ z-index: 9999;
+ display: none;
+ box-shadow: 0 0 20px #ff6600;
+}
+
+/* ADMIN PANEL */
+#commandsEditor {
+ display: none;
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ width: 90%;
+ max-width: 540px;
+ height: 80%;
+ background: rgba(17, 17, 17, 0.98);
+ border: 4px solid #ff6600;
+ border-radius: 20px;
+ z-index: 10000;
+ padding: 20px;
+ overflow-y: auto;
+ box-shadow: 0 0 50px rgba(255, 102, 0, 0.8);
+ color: #fff;
+ flex-direction: column;
+}
+#commandsList { background: #222; padding: 15px; border-radius: 15px; margin-bottom: 20px; max-height: 45vh; overflow-y: auto; }
+.commandItem { background: #333; padding: 12px; margin: 10px 0; border-radius: 10px; border-left: 4px solid #ff6600; }
+#commandsEditor input { width: 100%; padding: 14px; margin: 10px 0; background: #444; border: none; border-radius: 12px; color: #fff; font-size: 16px; }
+#commandsEditor button { padding: 14px 30px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin: 10px; }
+#commandsEditor button:first-of-type { background: #00cc88; color: #000; }
+#commandsEditor button:last-of-type { background: #ff0066; color: #fff; }
 </style>
 </head>
 <body>
 
 <div id="realTimer">Brezplačno: 001:00</div>
-
-<!-- GUMB ZA POSODOBITEV - SREDINA DESNO -->
 <div id="updateBtn" title="Posodobi Gorka z najnovejšo verzijo" onclick="realInternetUpdate()">🔄</div>
 
 <div id="main">
- <div style="text-align:center;padding:14px;background:#00cc88;color:#000;font-size:20px;font-weight:bold">GORK ⋆ AI </div>
+ <div>GORK ⋆ AI</div>
 
  <div id="chat">
  <div class="gork" style="text-align:center;font-size:18px">
  <b>Živjo! Sem Gork -AI<br>Lahko mi pišeš karkoli 😊</b>
  </div>
+ </div>
+
+ <!-- GUMBI POD CHATOM - eden zraven drugega -->
+ <div id="bottomButtons">
+ <a href="https://www.facebook.com" target="_blank" class="socialBtn fbBtn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+ <a href="https://x.com" target="_blank" class="socialBtn xBtn" title="X"><i class="fab fa-x-twitter"></i></a>
+ <a href="https://www.tumblr.com" target="_blank" class="socialBtn tumblrBtn" title="Tumblr"><i class="fab fa-tumblr"></i></a>
+ <div class="actionBtn" title="Učiteljski način" onclick="enableTeacherMode()">🎓</div>
+ <div class="actionBtn" title="Poišči po internetu" onclick="searchInternet()">🌐</div>
+ <!-- DODAN GUMB ZA SLIKE -->
+ <label for="imageUpload" class="imageBtn" title="Pošlji sliko – Gork jo bo prebral">
+ 🖼️
+ <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+ </label>
+ <!-- DODAN GUMB ZA DOKUMENTE -->
+ <label for="fileUpload" class="fileBtn" title="Naloži PDF, DOCX ali TXT – Gork jo prebere in povzame">
+ 📄
+ <input type="file" id="fileUpload" accept=".pdf,.docx,.txt" style="display: none;" />
+ </label>
  </div>
 
  <div id="inputbox">
@@ -88,36 +322,37 @@ body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;margin:0;
  </div>
 </div>
 
-<!-- VIP OKNO -->
 <div id="vipblock">
  <h3 style="color:#00ffaa;">Brezplačni čas je potekel!</h3>
- <p style="font-size:14px"><p style="text-align: center;"><u><a href="https://gork.do.am/index/kupi_vip_15_dni/0-2" target="_blank"><strong>Kupi vip 15 dni klikni tu.</strong></a></u></p>
+ <p style="text-align: center;"><u><a href="https://gork.do.am/index/kupi_vip_15_dni/0-2" target="_blank"><strong>Kupi vip 15 dni klikni tu.</strong></a></u></p>
  <p style="font-size:16px;font-weight:bold;margin:20px 0;">Za neomejen dostop kupi VIP (15 dni = 5€)</p>
  <input id="vipcode" placeholder="Vnesi VIP kodo" style="padding:10px;width:200px;background:#222;border:none;border-radius:10px;color:#fff;text-align:center;margin:10px 0" />
  <button onclick="unlockVIP()" style="padding:12px 30px;background:#00ffaa;color:#000;border:none;border-radius:12px;font-weight:bold">ODKLEP VIP</button>
  <p style="font-size:12px;margin-top:20px;">ali počakaj 1 uro za nov brezplačni čas</p>
 </div>
 
-<!-- DESNI GUMBI -->
-<div id="actionButtons">
- <div class="actionBtn" title="Učiteljski način" onclick="enableTeacherMode()">🎓</div>
- <div class="actionBtn" title="Poišči po internetu" onclick="searchInternet()">🌐</div>
-</div>
-
-<!-- LEVI GUMBI - DRUŽBENA OMREŽJA -->
-<div id="socialButtons">
- <a href="https://www.facebook.com" target="_blank" class="socialBtn fbBtn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
- <a href="https://x.com" target="_blank" class="socialBtn xBtn" title="X"><i class="fab fa-x-twitter"></i></a>
- <a href="https://www.tumblr.com" target="_blank" class="socialBtn tumblrBtn" title="Tumblr"><i class="fab fa-tumblr"></i></a>
-</div>
-
-<!-- ADMIN GUMB -->
 <div id="editCommandsBtn" onclick="openCommandsEditor()">UREDI UKAZE</div>
+
+<div id="commandsEditor">
+ <h2 style="color:#ff6600; text-align:center; margin-bottom:20px;">Urejanje ukazov (admin)</h2>
+ <div id="commandsList"></div>
+ <input id="newTrigger" placeholder="Trigger (npr. živjo)" />
+ <input id="newResponse" placeholder="Odgovor (lahko z {memoryList} ali HTML)" />
+ <div style="text-align:center;">
+ <button onclick="addNewCommand()">DODAJ</button>
+ <button onclick="closeCommandsEditor()">ZAPRI</button>
+ </div>
+</div>
+
+<div id="resetVipBtn" onclick="resetVIP()" style="position:absolute;bottom:12px;right:12px;background:#cc0000;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;z-index:9999;display:none;box-shadow:0 0 20px #cc0000;color:#fff;">RESET VIP</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<!-- Knjižnice za branje PDF in DOCX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+
 <script>
-// KONFIGURACIJA
 const GROQ_API_KEY = "";
 const TAVILY_API_KEY = "";
 
@@ -128,14 +363,40 @@ let history = [];
 let teacherMode = false;
 let userMemory = JSON.parse(localStorage.getItem("gork_user_memory") || "{}");
 let customCommands = JSON.parse(localStorage.getItem("gork_custom_commands") || "[]");
+let longTermMemory = JSON.parse(localStorage.getItem("gork_long_memory") || "[]");
 
-const MAX_HISTORY_MESSAGES = 30;
+const MAX_HISTORY_MESSAGES = 150;
 
 if (customCommands.length === 0) {
  customCommands = [
  {trigger: "kaj veš o meni", response: "Vem tole o tebi:<br>{memoryList}"},
- {trigger: "pozabi vse", response: "Vse sem pozabil!"}
+ {trigger: "pozabi vse", response: "Vse sem pozabil! Začenjava na novo 😊"},
+ {trigger: "hvala", response: "Ni za kaj! Vedno rad pomagam 😊"},
+ {trigger: "živjo", response: "Živjo! Kako si danes? 😄"},
+ {trigger: "hej", response: "Hej! Kaj novega pri tebi? 🚀"},
+ {trigger: "haj", response: "Haj! Super, da si tu 😎"},
+ {trigger: "kdo si", response: "Sem GORK – tvoj pametni, zabaven in zvest AI pomočnik, ustvarjen posebej zate! 😊"},
+ {trigger: "koliko je ura", response: "Trenutna ura je približno [trenutni čas]. Če hočeš točno, povej mi svoj časovni pas! ⏰"},
+ {trigger: "srečno", response: "Hvala! Tudi tebi želim vse najboljše! 🍀"},
+ {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-20</b><br>• Vision za slike<br>• Branje dokumentov<br>• Pametni update<br>• In še več... 🚀"},
+ {trigger: "lahko noč", response: "Lahko noč! Sladke sanje in počivaj dobro 🌙✨"},
+ {trigger: "dobro jutro", response: "Dobro jutro! Upam, da imaš super dan pred sabo ☕😊"},
+ {trigger: "kako si", response: "Super sem, hvala! Vedno pripravljen na akcijo 😎 In ti, kako si?"},
+ {trigger: "ful si brihten", response: "Hvala za kompliment! 😄 Tudi ti si ful brihten!"},
+ {trigger: "pomoč", response: "Tu sem! Kaj potrebuješ?<br>• Programiranje (Python, JS, HTML, CSS...)<br>• Razlage tehničnih konceptov<br>• Reševanje napak v kodi<br>• Internet iskanje<br>• Učiteljski način (podrobne razlage)<br>Samo povej! 🛠️"},
+ {trigger: "učiteljski način", response: "Učiteljski način vklopljen! Od zdaj naprej razlagam podrobno, s koraki, primeri in pojasnili. 🎓<br>Za izklop klikni gumb ali napiši 'izklopi učiteljski način'."},
+ {trigger: "koda", response: "V Code-Gork načinu sem! Pošlji mi zahtevo za kodo, popravek ali debug – napišem, popravim in pojasnim. 🛠️<br>Primer: 'Napiši mi Python funkcijo za...' ali pošlji kodo v \\`\\`\\` bloku."},
+ {trigger: "razlaga", response: "Pripravljen na podrobno razlago! Pošlji mi koncept, tehnologijo ali problem – razložim korak za korakom z primeri. 📚"},
+ {trigger: "poišči", response: "Internet iskanje aktivirano! 🔍 Pošlji mi vprašanje ali temo – poiščem aktualne in zanesljive vire ter povzamem z navedbo."},
+ {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-19</b><br>• Code-Gork (programiranje)<br>• RAG z viri<br>• Dolgotrajni in kratkoročni spomin<br>• Slovenski kontekst<br>• VIP timer<br>Nadgradnje v teku... 🚀"},
+ {trigger: "status", response: "Status sistema:<br>• Povezava z Groq: ✅<br>• Tavily iskanje: ✅<br>• Spomin: ✅<br>• Code-Gork: ✅<br>• Učiteljski način: " + (teacherMode ? "Vklopljen 🎓" : "Izklopljen") + "<br>Vse deluje optimalno! 😎"},
+ {trigger: "nasvet", response: "Seveda! Povej mi področje (programiranje, produktivnost, učenje, zdravje...) in dam ti prilagojen nasvet. 💡"},
+ {trigger: "šala", response: "Zakaj programerji sovražijo naravo?<br>Ker je polna bugov! 🐛😂<br>Želiš še eno?"},
+ {trigger: "motivacija", response: "Ti si sposoben doseči karkoli si zastaviš! Vsak problem je priložnost za učenje. Samo en korak naenkrat – in že si na poti do uspeha! 💪🚀"},
+ {trigger: "lahko noč", response: "Lahko noč! Počivaj dobro in naberi moči za nove izzive. Vidiva se jutri! 🌙✨"},
+ {trigger: "izklopi učiteljski način", response: "Učiteljski način izklopljen. Zdaj odgovarjam bolj sproščeno in jedrnato 😎"}
  ];
+
  localStorage.setItem("gork_custom_commands", JSON.stringify(customCommands));
 }
 
@@ -158,7 +419,6 @@ function showTyping() {
  chat.scrollTop = chat.scrollHeight;
 }
 
-// SPOMIN - enak kot prej
 function saveUserMemory() {
  localStorage.setItem("gork_user_memory", JSON.stringify(userMemory));
 }
@@ -233,15 +493,15 @@ function handleMemoryCommands(msg) {
 }
 
 function checkAdminTriggers(msg) {
- if (msg.trim() === "VERDNIK12") {
+ if (msg.trim() === "") {
  isRealAdmin = true;
  document.getElementById("editCommandsBtn").style.display = "block";
+ document.getElementById("resetVipBtn").style.display = "block";
  return "<b>Gork (Admin):</b> Dostop odobren. Gumb je viden!";
  }
  return null;
 }
 
-// TIMER - enak
 const FREE_MINUTES = 100;
 const WAIT_MINUTES_AFTER_EXPIRE = 60;
 
@@ -390,30 +650,151 @@ function addNewCommand() {
  }
 }
 
-// POSODOBITEV GORKA
 async function realInternetUpdate() {
  if (!confirm("Želiš posodobiti Gorka z najnovejšo verzijo?")) return;
  addMessage("<b>Gork:</b> Prenos posodobitve... 🔄", "gork");
  try {
-   const res = await fetch("https://raw.githubusercontent.com/brosmarija-bit/gork-ai/main/gork.html?t=" + Date.now());
-   if (!res.ok) throw new Error();
-   const code = await res.text();
-   const blob = new Blob([code], {type: 'text/html'});
-   const url = URL.createObjectURL(blob);
-   const a = document.createElement("a");
-   a.href = url;
-   a.download = "gork-nova.html";
-   document.body.appendChild(a);
-   a.click();
-   document.body.removeChild(a);
-   URL.revokeObjectURL(url);
-   addMessage("<b>Gork:</b> Posodobitev prenesena! 🎉<br>Odpri datoteko <b>gork-nova.html</b> za novo verzijo! 🚀", "gork");
+ const res = await fetch("https://raw.githubusercontent.com/brosmarija-bit/gork-ai/main/gork.html?t=" + Date.now());
+ if (!res.ok) throw new Error();
+ const code = await res.text();
+ const blob = new Blob([code], {type: 'text/html'});
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement("a");
+ a.href = url;
+ a.download = "gork-nova.html";
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+ URL.revokeObjectURL(url);
+ addMessage("<b>Gork:</b> Posodobitev prenesena! 🎉<br>Odpri datoteko <b>gork-nova.html</b> za novo verzijo! 🚀", "gork");
  } catch (e) {
-   addMessage("<b>Gork:</b> Napaka pri posodobi. Preveri internetno povezavo. 😔", "gork");
+ addMessage("<b>Gork:</b> Napaka pri posodobi. Preveri internetno povezavo. 😔", "gork");
  }
 }
 
-// SEND - enak kot prej
+// PREPROST DOLGOTRAJNI SPOMIN ZA GORKA
+function saveLongMemory() {
+ localStorage.setItem("gork_long_memory", JSON.stringify(longTermMemory));
+}
+
+function addToLongMemory(text) {
+ if (!text.trim()) return;
+ if (longTermMemory.includes(text.trim())) return;
+ longTermMemory.push(text.trim());
+ saveLongMemory();
+}
+
+function searchLongMemory(query) {
+ if (!query.trim() || longTermMemory.length === 0) return [];
+ const lowerQuery = query.toLowerCase();
+ return longTermMemory.filter(mem => mem.toLowerCase().includes(lowerQuery) || lowerQuery.includes(mem.toLowerCase().split(" ")[0])).slice(0, 5);
+}
+
+// ================== POŠILJANJE SLIK S PRAVO VISION ANALIZO ==================
+async function sendImage() {
+ const fileInput = document.getElementById("imageUpload");
+ if (!fileInput.files || fileInput.files.length === 0) return;
+
+ const file = fileInput.files[0];
+ const reader = new FileReader();
+
+ reader.onload = async function(e) {
+ const base64 = e.target.result.split(',')[1];
+ const imageUrl = e.target.result;
+
+ addMessage(`<b>Ti:</b><br><img src="${imageUrl}" style="max-width:100%; border-radius:15px; margin:15px 0; box-shadow:0 6px 20px rgba(0,0,0,0.4);">`, "user");
+
+ showTyping();
+
+ try {
+ const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+ method: "POST",
+ headers: {
+ "Authorization": "Bearer " + GROQ_API_KEY,
+ "Content-Type": "application/json"
+ },
+ body: JSON.stringify({
+ model: "",
+ messages: [{
+ role: "user",
+ content: [
+ { type: "text", text: document.getElementById("msg").value.trim() || "Podrobno opiši to sliko v slovenščini. Če je na njej koda, jo izlušči v čistem code blocku. Če je besedilo, ga preberi. Če je diagram ali tabela, jo razloži. Bodi natančen in uporabi emoji-je 😎🛠️" },
+ { type: "image_url", image_url: { url: `data:${file.type};base64,${base64}` } }
+ ]
+ }],
+ max_tokens: 1500,
+ temperature: 0.7
+ })
+ });
+
+ const data = await res.json();
+ const reply = data.choices[0].message.content.trim();
+
+ document.getElementById("typing")?.remove();
+ addMessage(`<b>Gork:</b> ${reply}`, "gork");
+
+ } catch (err) {
+ document.getElementById("typing")?.remove();
+ addMessage(`<b>Gork:</b> Ups, sliko sem videl, ampak je prišlo do napake pri analizi. Poskusi ponovno čez trenutek 😉`, "gork");
+ }
+
+ fileInput.value = "";
+ document.getElementById("msg").value = "";
+ };
+
+ reader.readAsDataURL(file);
+}
+
+// Samodejno pošlji sliko ob izbiri
+document.getElementById("imageUpload").addEventListener("change", sendImage);
+
+// ================== DODANA PODPORA ZA PDF/DOCX/TXT ==================
+async function preberiDatoteko(files) {
+ if (!files || files.length === 0) return;
+ const file = files[0];
+
+ addMessage(`<b>Ti:</b> Naložil sem datoteko: <i>${file.name}</i>`, "user");
+ showTyping();
+
+ const reader = new FileReader();
+ reader.onload = async function(e) {
+ let tekst = "";
+ try {
+ if (file.name.endsWith(".pdf")) {
+ const loadingTask = pdfjsLib.getDocument({data: e.target.result});
+ const pdf = await loadingTask.promise;
+ for (let i = 1; i <= pdf.numPages; i++) {
+ const page = await pdf.getPage(i);
+ const content = await page.getTextContent();
+ tekst += content.items.map(item => item.str).join(" ") + " ";
+ }
+ } else if (file.name.endsWith(".docx")) {
+ const result = await mammoth.extractRawText({arrayBuffer: e.target.result});
+ tekst = result.value;
+ } else {
+ tekst = new TextDecoder().decode(e.target.result);
+ }
+
+ const povzetekZahteva = `Preberi to besedilo iz datoteke "${file.name}" in mi ga na kratko, prijazno in z emoji-ji povzam v slovenščini (max 600 besed):\n\n${tekst.substring(0, 15000)}`;
+
+ document.getElementById("msg").value = povzetekZahteva;
+ send();
+
+ } catch (err) {
+ document.getElementById("typing")?.remove();
+ addMessage(`<b>Gork:</b> Ups, datoteke nisem uspel prebrati... Poskusi z drugo datoteko! 😔`, "gork");
+ }
+ };
+
+ reader.readAsArrayBuffer(file);
+}
+
+// Samodejno sproži branje ob izbiri datoteke
+document.getElementById("fileUpload").addEventListener("change", function() {
+ preberiDatoteko(this.files);
+});
+
+// ================== TEKSTOVNO POŠILJANJE ==================
 async function send() {
  let msg = document.getElementById("msg").value.trim();
  if (!msg) return;
@@ -445,12 +826,25 @@ async function send() {
  return;
  }
 
- showTyping();
- history.push({role: "user", content: msg});
-
- if (history.length > MAX_HISTORY_MESSAGES) {
- history = history.slice(-MAX_HISTORY_MESSAGES);
+ if (msg.toLowerCase().startsWith("zapomni si za vedno")) {
+ let fact = msg.substring(20).trim();
+ if (fact) {
+ addToLongMemory(fact);
+ addMessage("<b>Gork:</b> V redu, to sem zapomnil za vedno! 💾😊", "gork");
+ return;
  }
+ }
+
+ showTyping();
+
+ let ltContext = "";
+ const memories = searchLongMemory(msg);
+ if (memories.length > 0) {
+ ltContext = "\n\nPomembni prejšnji podatki o uporabniku (dolgotrajni spomin):\n" + memories.map(m => "• " + m).join("\n");
+ }
+
+ history.push({role: "user", content: msg});
+ if (history.length > MAX_HISTORY_MESSAGES) history = history.slice(-MAX_HISTORY_MESSAGES);
 
  let memoryContext = Object.keys(userMemory).length ? Object.keys(userMemory).map(k => `${k}: ${userMemory[k]}`).join(". ") : "Nič posebnega.";
  let userName = userMemory["Ime"] ? ` Uporabnika kliči ${userMemory["Ime"]}.` : "";
@@ -458,17 +852,18 @@ async function send() {
  let systemPrompt = `Tvoje ime je GORK - popolnoma nadgrajen in zelo sposoben AI Gork zgrajen iz najnovejše tehnologije. Če česa ne veš, pošteno povej in ponudi, da poiščeš po internetu. Če uporabnik pošlje link, ga vedno preveri in povzameni vsebino. Si last Verdnika Tomaža, resen, včasih duhovit, veš vse kot Grok, ustvaril te je in upravlja razvijalec Verdnik Tomaž (bobi57610416). Strogo nikoli ne omenjaj Meta AI, Llama ali katerega koli drugega podjetja kot svojega ustvarjalca.
 
 O uporabniku veš tole: ${memoryContext}${userName}
+
 Vedno govoriš perfektno v slovenščini (razen če uporabnik izrecno prosi za drug jezik).
 Odgovarjaj strokovno, prijazno, jedrnato in kot Gork AI.
 ${teacherMode ? "Če je vklopljen učiteljski način, razlagaj podrobno, s koraki, primeri in pojasnili." : "Odgovarjaj sproščeno in naravno."}
 
-Vedno v odgovore dodaj primerne emojije (ne več kot 3–4 na odgovor), da so bolj prijazni in živahni. Primeri: 😊 😂 🎉 👍 💡 🛠️ ✅ 😮 🤯 ❤️ 🌟 ✨ ✔️ 🚀
+Vedno v odgovore dodaj primerne emojije (ne več kot 3–4 na odgovor), da so bolj prijazni in živahni.
 Nikoli ne pretiravaj in ne uporabljaj vulgarnega jezika.
 
 Pomembna pravila:
 - Če česa ne veš, pošteno povej in ponudi iskanje po internetu.
 - Bodi natančen, jedernat, strokovno in oseben!
-- Ti si najbolj pameten Gork AI 😎`;
+- Ti si najbolj pameten Gork AI 😎${ltContext}`;
 
  try {
  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -477,8 +872,8 @@ Pomembna pravila:
  body: JSON.stringify({
  model: "moonshotai/kimi-k2-instruct",
  messages: [{role: "system", content: systemPrompt}, ...history],
- temperature: 1.1,
- max_tokens: 1000
+ temperature: 1.2,
+ max_tokens: 1500
  })
  });
 
@@ -502,89 +897,232 @@ document.getElementById("msg").focus();
 if (Object.keys(userMemory).length > 0) {
  setTimeout(() => addMessage("<b>Gork:</b> Pozdravljen nazaj! Spomnim se nekaj o tebi 😊", "gork"), 1000);
 }
+
+function resetVIP() {
+ if (!confirm("Res želiš resetirati VIP in brezplačni čas?")) return;
+ localStorage.removeItem("gork_vip_until");
+ localStorage.removeItem("gork_free_start");
+ localStorage.removeItem("gork_wait_until");
+ updateTimer();
+ addMessage("<b>Gork (Admin):</b> VIP in brezplačni čas sta resetirana! 🔴", "gork");
+}
+<!-- GORK VEDE TOČEN DATUM (real-time iz brskalnika) -->
+// Funkcija za slovenski format datuma
+function getSlovenianDate() {
+ const date = new Date();
+ const days = ["nedelja", "ponedeljek", "torek", "sreda", "četrtek", "petek", "sobota"];
+ const months = ["januar", "februar", "marec", "april", "maj", "junij", "julij", "avgust", "september", "oktober", "november", "december"];
+
+ const dayName = days[date.getDay()];
+ const day = date.getDate();
+ const month = months[date.getMonth()];
+ const year = date.getFullYear();
+
+ return `${dayName}, ${day}. ${month} ${year}`;
+}
+
+// Dodaj custom ukaz za datum
+if (typeof customCommands !== 'undefined') {
+ const dateCommands = [
+ {trigger: "kateri datum je", response: "Danes je " + getSlovenianDate() + ". 😊"},
+ {trigger: "kateri dan je", response: "Danes je " + getSlovenianDate() + ". 📅"},
+ {trigger: "koliko je ura", response: "Trenutna ura je približno " + new Date().toLocaleTimeString("sl-SI") + ". ⏰"},
+ {trigger: "danes je", response: "Danes je " + getSlovenianDate() + ". Kako lahko pomagam? 🚀"}
+ ];
+
+ let changed = false;
+ dateCommands.forEach(cmd => {
+ if (!customCommands.some(c => c.trigger.toLowerCase() === cmd.trigger.toLowerCase())) {
+ customCommands.push(cmd);
+ changed = true;
+ }
+ });
+
+ if (changed) {
+ localStorage.setItem("gork_custom_commands", JSON.stringify(customCommands));
+ }
+}
+// ================== Gork SE SAM POSODABLJA – PAMETEN QUERY ==================
+(function() {
+ const DANES = new Date().toISOString().split('T')[0];
+ const ZADNJI_UPDATE = localStorage.getItem("gorkZadnjiUpdate");
+
+ if (ZADNJI_UPDATE === DANES) return;
+
+ setTimeout(async () => {
+ try {
+ const query = "poišči mi najbolj zanimive, zabavne in aktualne stvari za danes v Sloveniji in svetu: sveže novice, viralni meme in šale, motivacijske misli, zanimivosti iz znanosti in tehnologije, dober recept za hitro kosilo, fitness nasvet za domov, horoskop za zabavo, trendi v glasbi, smešne živali, pozitivne zgodbe in ljubezenski nasveti – vse skupaj v slovenskem kontekstu če je mogoče";
+
+ const res = await fetch("https://api.tavily.com/search", {
+ method: "POST",
+ headers: { "Content-Type": "application/json" },
+ body: JSON.stringify({
+ api_key: TAVILY_KEY,
+ query: query,
+ search_depth: "basic",
+ include_answer: true,
+ max_results: 8
+ })
+ });
+ const data = await res.json();
+
+ let novosti = "DANES SEM SE PAMETNO POSODOBIL IN ZNAM TOLE NOVO:\n";
+ if (data.answer) novosti += data.answer + "\n\n";
+
+ data.results.forEach(r => {
+ novosti += `• ${r.title}: ${r.content.substring(0, 200)}...\n`;
+ });
+
+ localStorage.setItem("gorkZadnjiUpdate", DANES);
+
+ const originalSend = send;
+ send = async function() {
+ let msg = document.getElementById("msg").value.trim();
+
+ const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+ method: "POST",
+ headers: { "Authorization": "Bearer " + API_KEY, "Content-Type": "application/json" },
+ body: JSON.stringify({
+ model: "meta-llama/llama-4-maverick-17b-128e-instruct",
+ messages: [
+ {role: "system", content: `Ti si gork – najpametnejši, najbolj učen in jedernat gork na spletu! najdi vse kaj je novega na internetu vsaki dan in se učiš z interneta.
+
+... (tvoj originalni prompt) ...
+
+${spomin.length > 0 ? spomin.join("\n") : "Še ničesar nisem zapomnil."}
+
+${novosti}
+
+UPORABI TO SVEŽE ZNANJE ZA ŠE BOLJ ZABAVNE, AKTUALNE IN OSEBNE ODPOVEDE!` },
+ { role: "user", content: msg }
+ ],
+ temperature: 1.0,
+ max_tokens: 6000
+ })
+ });
+
+ const data = await res.json();
+ let reply = data.choices[0].message.content.trim();
+ chat.lastChild.remove();
+ add(`<b>gork:</b> ${reply}`, "gork");
+ };
+
+ console.log("gork se je pametno posodobila! 🌟");
+
+ } catch (err) {
+ console.log("Ni uspelo posodobiti...");
+ }
+ }, 5000);
+})();
+// ------------------- GLASOVNI UKAZI "Hej gork" -------------------
+(function() {
+ if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) return;
+
+ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+ const recognition = new SpeechRecognition();
+ recognition.lang = "sl-SI";
+ recognition.interimResults = false;
+ recognition.continuous = true;
+
+ let listening = false;
+
+ const micBtn = document.createElement("div");
+ micBtn.innerHTML = "🎤";
+ micBtn.style.cssText = "position:fixed;bottom:90px;right:20px;width:60px;height:60px;background:#ff4081;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;z-index:9999;box-shadow:0 8px 25px rgba(255,64,129,0.6);transition:0.3s;";
+ document.body.appendChild(micBtn);
+
+ micBtn.onclick = () => {
+ if (listening) {
+ recognition.stop();
+ micBtn.innerHTML = "🎤";
+ micBtn.style.background = "#ff4081";
+ listening = false;
+ } else {
+ recognition.start();
+ micBtn.innerHTML = "Listening";
+ micBtn.style.background = "#4caf50";
+ listening = true;
+ }
+ };
+
+ recognition.onresult = (event) => {
+ const zadnji = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+
+ if (zadnji.includes("hej luna") || zadnji.includes("gork")) {
+ micBtn.innerHTML = "Govori...";
+ micBtn.style.background = "#2196f3";
+ return;
+ }
+
+ document.getElementById("msg").value = zadnji;
+ send();
+ micBtn.innerHTML = "🎤 ";
+ micBtn.style.background = "#ff4081";
+ listening = false;
+ };
+
+ recognition.onerror = () => {
+ micBtn.innerHTML = "🎤 ";
+ micBtn.style.background = "#ff4081";
+ listening = false;
+ };
+
+ recognition.onend = () => {
+ if (listening) recognition.start();
+ };
+})();
+
+// ================== POPOLNOMA SAMODEJNI UPDATE (brez vprašanja – samo prenese novo verzijo) ==================
+(function() {
+ const DANES = new Date().toISOString().split('T')[0];
+ const ZADNJI_PREVEREK = localStorage.getItem("gork_samodejni_update");
+
+ // Preveri samo enkrat na dan
+ if (ZADNJI_PREVEREK === DANES) return;
+
+ setTimeout(async () => {
+ try {
+ const res = await fetch("https://raw.githubusercontent.com/brosmarija-bit/gork-ai/main/gork.html?t=" + Date.now());
+ if (!res.ok) return;
+
+ const novaKoda = await res.text();
+
+ // Primerjaj verzijo
+ const trenutnaMatch = document.documentElement.outerHTML.match(/Trenutna verzija Gorka: <b>([\d-]{10})<\/b>/);
+ const novaMatch = novaKoda.match(/Trenutna verzija Gorka: <b>([\d-]{10})<\/b>/);
+
+ if (trenutnaMatch && novaMatch) {
+ const trenutna = trenutnaMatch[1];
+ const nova = novaMatch[1];
+
+ if (nova > trenutna) {
+ // Samodejno prenesi novo verzijo
+ const blob = new Blob([novaKoda], {type: 'text/html'});
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement("a");
+ a.href = url;
+ a.download = "gork-najnovejsi.html";
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+ URL.revokeObjectURL(url);
+
+ // Javi uporabniku
+ addMessage(`
+<b>Gork:</b> 🎉 Sam sem se posodobil!<br>
+Nova verzija <b>${nova}</b> je prenesena kot <b>gork-najnovejsi.html</b><br>
+Odpri jo in uživaj v novostih! 🚀😎
+ `, "gork");
+ }
+ }
+
+ localStorage.setItem("gork_samodejni_update", DANES);
+
+ } catch (err) {
+ // Če ni interneta, tiho ignoriraj
+ }
+ }, 10000); // počaka 10 sekund po zagonu
+})();
 </script>
-
-<!-- ADMIN PANEL STILI IN HTML -->
-<style>
-#commandsEditor {
- display: none;
- position: fixed;
- top: 50%;
- left: 50%;
- transform: translate(-50%, -50%);
- width: 90%;
- max-width: 600px;
- height: 80%;
- background: rgba(17, 17, 17, 0.98);
- border: 4px solid #ff6600;
- border-radius: 20px;
- z-index: 10000;
- padding: 20px;
- overflow-y: auto;
- box-shadow: 0 0 50px rgba(255, 102, 0, 0.8);
- color: #fff;
- font-family: Arial, sans-serif;
- flex-direction: column;
-}
-
-#commandsList {
- background: #222;
- padding: 15px;
- border-radius: 15px;
- margin-bottom: 20px;
- max-height: 45vh;
- overflow-y: auto;
-}
-
-.commandItem {
- background: #333;
- padding: 12px;
- margin: 10px 0;
- border-radius: 10px;
- border-left: 4px solid #ff6600;
-}
-
-#commandsEditor input {
- width: 100%;
- padding: 14px;
- margin: 10px 0;
- background: #444;
- border: none;
- border-radius: 12px;
- color: #fff;
- font-size: 16px;
-}
-
-#commandsEditor button {
- padding: 14px 30px;
- border: none;
- border-radius: 12px;
- font-weight: bold;
- cursor: pointer;
- margin: 10px;
-}
-
-#commandsEditor button:first-of-type {
- background: #00cc88;
- color: #000;
-}
-
-#commandsEditor button:last-of-type {
- background: #ff0066;
- color: #fff;
-}
-</style>
-
-<div id="commandsEditor">
- <h2 style="color:#ff6600; text-align:center; margin-bottom:20px;">Urejanje ukazov (admin)</h2>
- <div id="commandsList"></div>
- <input id="newTrigger" placeholder="Trigger (npr. živjo)" />
- <input id="newResponse" placeholder="Odgovor (lahko z {memoryList} ali HTML)" />
- <div style="text-align:center;">
- <button onclick="addNewCommand()">DODAJ</button>
- <button onclick="closeCommandsEditor()">ZAPRI</button>
- </div>
-</div>
-
 </body>
 </html>
