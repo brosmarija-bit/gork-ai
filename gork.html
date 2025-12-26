@@ -1,13 +1,55 @@
-<!DOCTYPE html>
-<html lang="sl">
-<head>
-<meta charset="utf-8">
-<title>GORK - Pametni AI pomočnik</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<div style="background: #000; padding: 20px 15px; text-align: center; border: 8px solid #00ff00; border-radius: 20px; margin: 20px 10px; box-shadow: 0 0 80px #00ff00; animation: glow2 2s infinite alternate;">
+<div id="girlsText" style="font-size: 48px; color: #fff; font-weight: bold; text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; min-height: 70px; transition: opacity 0.6s;">Pravi Gork Ai...</div>
+</div>
+<script type="text/javascript">// <![CDATA[
+const girlLines = [
+ "Novi Gork...",
+ "Odgovarja slovensko",
+ "Obvlada vse jezike 😈",
+ "Učitelski način",
+ "Sliko vam opiše",
+ "Prebere-pdf-txt-word...",
+ "Išče po internetu",
+ "Ima mikrofon",
+ "Ima odgovor na vse",
+ "Brezplačno vsako uro",
+ "Pokaže sveže novice",
+];
 
-<style type="text/css">
-body {
+const girlPhotos = document.querySelectorAll(".girlMini");
+let g = 0;
+let curGirl = 0;
+
+// menjava teksta za punce
+setInterval(() => {
+ document.getElementById("girlsText").style.opacity = 0;
+ setTimeout(() => {
+ document.getElementById("girlsText").innerText = girlLines[g];
+ document.getElementById("girlsText").style.opacity = 1;
+ g = (g + 1) % girlLines.length;
+ }, 600);
+}, 4000);
+
+// menjava fotk punc
+function rotateGirl() {
+ girlPhotos[curGirl].style.opacity = 0;
+ curGirl = (curGirl + 1) % girlPhotos.length;
+ girlPhotos[curGirl].style.opacity = 1;
+}
+girlPhotos.forEach(p => p.style.cssText += "position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:12px;border:4px solid #00ff00;transition:opacity 0.8s;opacity:0;");
+girlPhotos[0].style.opacity = 1;
+setInterval(rotateGirl, 4000);
+// ]]></script>
+<style type="text/css"><!--
+@keyframes glow2{from{box-shadow:0 0 80px #00ff00}to{box-shadow:0 0 120px #00ff00}}
+@keyframes p2{0%,100%{box-shadow:0 0 60px #00ff00}50%{box-shadow:0 0 100px #00ff00}}
+-->
+</style>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+<style type="text/css">body {
  margin: 0;
  padding: 20px 0;
  font-family: Arial, Helvetica, sans-serif;
@@ -282,81 +324,56 @@ body {
 #commandsEditor button:first-of-type { background: #00cc88; color: #000; }
 #commandsEditor button:last-of-type { background: #ff0066; color: #fff; }
 </style>
-</head>
-<body>
-
 <div id="realTimer">Brezplačno: 001:00</div>
-<div id="updateBtn" title="Posodobi Gorka z najnovejšo verzijo" onclick="realInternetUpdate()">🔄</div>
+
+<div id="updateBtn" onclick="realInternetUpdate()" title="Posodobi Gorka z najnovejšo verzijo">🔄</div>
 
 <div id="main">
- <div>GORK ⋆ AI</div>
+<div>💾😊 GORK 🎓 NAPREDNI 📄 AI ⋆KI VAS OPOMNI DA NE POZABITE🔔⏰</div>
 
- <div id="chat">
- <div class="gork" style="text-align:center;font-size:18px">
- <b>Živjo! Sem Gork -AI<br>Lahko mi pišeš karkoli 😊</b>
- </div>
- </div>
+<div id="chat">
+<div class="gork" style="text-align:center;font-size:18px"><b>Živjo! Sem Gork -AI<br />
+Lahko mi pišeš karkoli 😊</b></div>
+</div>
+<!-- GUMBI POD CHATOM - eden zraven drugega -->
 
- <!-- GUMBI POD CHATOM - eden zraven drugega -->
- <div id="bottomButtons">
- <a href="https://www.facebook.com" target="_blank" class="socialBtn fbBtn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
- <a href="https://x.com" target="_blank" class="socialBtn xBtn" title="X"><i class="fab fa-x-twitter"></i></a>
- <a href="https://www.tumblr.com" target="_blank" class="socialBtn tumblrBtn" title="Tumblr"><i class="fab fa-tumblr"></i></a>
- <div class="actionBtn" title="Učiteljski način" onclick="enableTeacherMode()">🎓</div>
- <div class="actionBtn" title="Poišči po internetu" onclick="searchInternet()">🌐</div>
- <!-- DODAN GUMB ZA SLIKE -->
- <label for="imageUpload" class="imageBtn" title="Pošlji sliko – Gork jo bo prebral">
- 🖼️
- <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
- </label>
- <!-- DODAN GUMB ZA DOKUMENTE -->
- <label for="fileUpload" class="fileBtn" title="Naloži PDF, DOCX ali TXT – Gork jo prebere in povzame">
- 📄
- <input type="file" id="fileUpload" accept=".pdf,.docx,.txt" style="display: none;" />
- </label>
- </div>
+<div id="bottomButtons">
+<div class="actionBtn" onclick="enableTeacherMode()" title="Učiteljski način">🎓</div>
 
- <div id="inputbox">
- <input autocomplete="off" id="msg" placeholder="Piši mi..." />
- <button id="send">POŠLJI</button>
- </div>
+<div class="actionBtn" onclick="speakLastMessage()" title="Gork govori zadnji odgovor">🔊</div>
+<div class="actionBtn" onclick="searchInternet()" title="Poišči po internetu">🌐</div>
+<!-- DODAN GUMB ZA SLIKE --><label class="imageBtn" for="imageUpload" title="Pošlji sliko – Gork jo bo prebral">🖼️ <input accept="image/*" id="imageUpload" style="display: none;" type="file" /> </label> <!-- DODAN GUMB ZA DOKUMENTE --> <label class="fileBtn" for="fileUpload" title="Naloži PDF, DOCX ali TXT – Gork jo prebere in povzame"> 📄 <input accept=".pdf,.docx,.txt" id="fileUpload" style="display: none;" type="file" /> </label></div>
+
+<div id="inputbox"><input autocomplete="off" id="msg" placeholder="Piši mi..." /><button id="send">POŠLJI</button></div>
 </div>
 
 <div id="vipblock">
- <h3 style="color:#00ffaa;">Brezplačni čas je potekel!</h3>
- <p style="text-align: center;"><u><a href="https://gork.do.am/index/kupi_vip_15_dni/0-2" target="_blank"><strong>Kupi vip 15 dni klikni tu.</strong></a></u></p>
- <p style="font-size:16px;font-weight:bold;margin:20px 0;">Za neomejen dostop kupi VIP (15 dni = 5€)</p>
- <input id="vipcode" placeholder="Vnesi VIP kodo" style="padding:10px;width:200px;background:#222;border:none;border-radius:10px;color:#fff;text-align:center;margin:10px 0" />
- <button onclick="unlockVIP()" style="padding:12px 30px;background:#00ffaa;color:#000;border:none;border-radius:12px;font-weight:bold">ODKLEP VIP</button>
- <p style="font-size:12px;margin-top:20px;">ali počakaj 1 uro za nov brezplačni čas</p>
+<h3 style="color:#00ffaa;">Brezplačni čas je potekel!</h3>
+
+<p style="text-align: center;"><u><a href="https://gork.do.am/index/kupi_vip_15_dni/0-2" target="_blank"><span style="color:#ffffff;"><strong><span style="background-color:#000080;">Kupi vip 15 dni klikni tu.</span></strong></span></a></u></p>
+
+<p style="font-size:16px;font-weight:bold;margin:20px 0;">Za neomejen dostop kupi VIP (15 dni = 5&euro;)</p>
+<input id="vipcode" placeholder="Vnesi VIP kodo" style="padding:10px;width:200px;background:#222;border:none;border-radius:10px;color:#fff;text-align:center;margin:10px 0" /><button onclick="unlockVIP()" style="padding:12px 30px;background:#00ffaa;color:#000;border:none;border-radius:12px;font-weight:bold">ODKLEP VIP</button>
+
+<p style="font-size:12px;margin-top:20px;">ali počakaj 1 uro za nov brezplačni čas</p>
 </div>
 
 <div id="editCommandsBtn" onclick="openCommandsEditor()">UREDI UKAZE</div>
 
 <div id="commandsEditor">
- <h2 style="color:#ff6600; text-align:center; margin-bottom:20px;">Urejanje ukazov (admin)</h2>
- <div id="commandsList"></div>
- <input id="newTrigger" placeholder="Trigger (npr. živjo)" />
- <input id="newResponse" placeholder="Odgovor (lahko z {memoryList} ali HTML)" />
- <div style="text-align:center;">
- <button onclick="addNewCommand()">DODAJ</button>
- <button onclick="closeCommandsEditor()">ZAPRI</button>
- </div>
+<h2 style="color:#ff6600; text-align:center; margin-bottom:20px;">Urejanje ukazov (admin)</h2>
+
+<div id="commandsList">&nbsp;</div>
+<input id="newTrigger" placeholder="Trigger (npr. živjo)" /> <input id="newResponse" placeholder="Odgovor (lahko z {memoryList} ali HTML)" />
+<div style="text-align:center;"><button onclick="addNewCommand()">DODAJ</button><button onclick="closeCommandsEditor()">ZAPRI</button></div>
 </div>
 
 <div id="resetVipBtn" onclick="resetVIP()" style="position:absolute;bottom:12px;right:12px;background:#cc0000;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;z-index:9999;display:none;box-shadow:0 0 20px #cc0000;color:#fff;">RESET VIP</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- Knjižnice za branje PDF in DOCX -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><!-- Knjižnice za branje PDF in DOCX --><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script><script>
 const GROQ_API_KEY = "";
 const TAVILY_API_KEY = "";
 
-const VALID_VIP_CODES = ["GORK2025", "", "", "", ""];
+const VALID_VIP_CODES = ["", "", "", "", ""];
 
 let isRealAdmin = false;
 let history = [];
@@ -378,7 +395,7 @@ if (customCommands.length === 0) {
  {trigger: "kdo si", response: "Sem GORK – tvoj pametni, zabaven in zvest AI pomočnik, ustvarjen posebej zate! 😊"},
  {trigger: "koliko je ura", response: "Trenutna ura je približno [trenutni čas]. Če hočeš točno, povej mi svoj časovni pas! ⏰"},
  {trigger: "srečno", response: "Hvala! Tudi tebi želim vse najboljše! 🍀"},
- {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-20</b><br>• Vision za slike<br>• Branje dokumentov<br>• Pametni update<br>• In še več... 🚀"},
+ {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-22</b><br>• Vision za slike<br>• Branje dokumentov<br>• Pametni update<br>• In še več... 🚀"},
  {trigger: "lahko noč", response: "Lahko noč! Sladke sanje in počivaj dobro 🌙✨"},
  {trigger: "dobro jutro", response: "Dobro jutro! Upam, da imaš super dan pred sabo ☕😊"},
  {trigger: "kako si", response: "Super sem, hvala! Vedno pripravljen na akcijo 😎 In ti, kako si?"},
@@ -388,8 +405,13 @@ if (customCommands.length === 0) {
  {trigger: "koda", response: "V Code-Gork načinu sem! Pošlji mi zahtevo za kodo, popravek ali debug – napišem, popravim in pojasnim. 🛠️<br>Primer: 'Napiši mi Python funkcijo za...' ali pošlji kodo v \\`\\`\\` bloku."},
  {trigger: "razlaga", response: "Pripravljen na podrobno razlago! Pošlji mi koncept, tehnologijo ali problem – razložim korak za korakom z primeri. 📚"},
  {trigger: "poišči", response: "Internet iskanje aktivirano! 🔍 Pošlji mi vprašanje ali temo – poiščem aktualne in zanesljive vire ter povzamem z navedbo."},
- {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-19</b><br>• Code-Gork (programiranje)<br>• RAG z viri<br>• Dolgotrajni in kratkoročni spomin<br>• Slovenski kontekst<br>• VIP timer<br>Nadgradnje v teku... 🚀"},
+ {trigger: "verzija", response: "Trenutna verzija Gorka: <b>2025-12-22</b><br>• Code-Gork (programiranje)<br>• RAG z viri<br>• Dolgotrajni in kratkoročni spomin<br>• Slovenski kontekst<br>• VIP timer<br>Nadgradnje v teku... 🚀"},
  {trigger: "status", response: "Status sistema:<br>• Povezava z Groq: ✅<br>• Tavily iskanje: ✅<br>• Spomin: ✅<br>• Code-Gork: ✅<br>• Učiteljski način: " + (teacherMode ? "Vklopljen 🎓" : "Izklopljen") + "<br>Vse deluje optimalno! 😎"},
+{trigger: "posodobi gorka", response: "Takoj preverjam za novo verzijo... 🔄"},
+{trigger: "update", response: "Takoj preverjam za novo verzijo... 🔄"},
+{trigger: "posodobi", response: "Takoj preverjam za novo verzijo... 🔄"},
+{trigger: "nova verzija", response: "Takoj preverjam za novo verzijo... 🔄"},
+{trigger: "🔄", response: "Takoj preverjam za novo verzijo... 🔄"},
  {trigger: "nasvet", response: "Seveda! Povej mi področje (programiranje, produktivnost, učenje, zdravje...) in dam ti prilagojen nasvet. 💡"},
  {trigger: "šala", response: "Zakaj programerji sovražijo naravo?<br>Ker je polna bugov! 🐛😂<br>Želiš še eno?"},
  {trigger: "motivacija", response: "Ti si sposoben doseči karkoli si zastaviš! Vsak problem je priložnost za učenje. Samo en korak naenkrat – in že si na poti do uspeha! 💪🚀"},
@@ -493,7 +515,7 @@ function handleMemoryCommands(msg) {
 }
 
 function checkAdminTriggers(msg) {
- if (msg.trim() === "") {
+ if (msg.trim() === "VERDNIK12") {
  isRealAdmin = true;
  document.getElementById("editCommandsBtn").style.display = "block";
  document.getElementById("resetVipBtn").style.display = "block";
@@ -714,7 +736,7 @@ async function sendImage() {
  "Content-Type": "application/json"
  },
  body: JSON.stringify({
- model: "",
+ model: "meta-llama/llama-4-maverick-17b-128e-instruct",
  messages: [{
  role: "user",
  content: [
@@ -906,8 +928,8 @@ function resetVIP() {
  updateTimer();
  addMessage("<b>Gork (Admin):</b> VIP in brezplačni čas sta resetirana! 🔴", "gork");
 }
-<!-- GORK VEDE TOČEN DATUM (real-time iz brskalnika) -->
-// Funkcija za slovenski format datuma
+
+// GORK VEDE TOČEN DATUM (real-time iz brskalnika)
 function getSlovenianDate() {
  const date = new Date();
  const days = ["nedelja", "ponedeljek", "torek", "sreda", "četrtek", "petek", "sobota"];
@@ -921,26 +943,36 @@ function getSlovenianDate() {
  return `${dayName}, ${day}. ${month} ${year}`;
 }
 
-// Dodaj custom ukaz za datum
+function getMonthName() {
+ const months = ["januar", "februar", "marec", "april", "maj", "junij", "julij", "avgust", "september", "oktober", "november", "december"];
+ return months[new Date().getMonth()];
+}
+
+function getDayName() {
+ const days = ["nedelja", "ponedeljek", "torek", "sreda", "četrtek", "petek", "sobota"];
+ return days[new Date().getDay()];
+}
+
+// Dodaj custom ukaze za datum (samo te obdrži!)
 if (typeof customCommands !== 'undefined') {
  const dateCommands = [
+ {trigger: "datum", response: "Danes je " + getSlovenianDate() + ". 📅"},
  {trigger: "kateri datum je", response: "Danes je " + getSlovenianDate() + ". 😊"},
- {trigger: "kateri dan je", response: "Danes je " + getSlovenianDate() + ". 📅"},
- {trigger: "koliko je ura", response: "Trenutna ura je približno " + new Date().toLocaleTimeString("sl-SI") + ". ⏰"},
- {trigger: "danes je", response: "Danes je " + getSlovenianDate() + ". Kako lahko pomagam? 🚀"}
+ {trigger: "kateri dan je", response: "Danes je " + getDayName() + ". 🤝"},
+ {trigger: "dan", response: getDayName() + " 🤝"},
+ {trigger: "mesec", response: "Trenutno smo v " + getMonthName() + "ju. 🌸"},
+ {trigger: "leto", response: "Leto je " + new Date().getFullYear() + ". 🗓️"},
+ {trigger: "leto danes", response: "Leto je " + new Date().getFullYear() + ". 🗓️"},
+ {trigger: "koliko je ura", response: "Trenutna ura je " + new Date().toLocaleTimeString("sl-SI") + ". ⏰"}
  ];
 
- let changed = false;
  dateCommands.forEach(cmd => {
  if (!customCommands.some(c => c.trigger.toLowerCase() === cmd.trigger.toLowerCase())) {
  customCommands.push(cmd);
- changed = true;
  }
  });
 
- if (changed) {
  localStorage.setItem("gork_custom_commands", JSON.stringify(customCommands));
- }
 }
 // ================== Gork SE SAM POSODABLJA – PAMETEN QUERY ==================
 (function() {
@@ -1071,7 +1103,6 @@ UPORABI TO SVEŽE ZNANJE ZA ŠE BOLJ ZABAVNE, AKTUALNE IN OSEBNE ODPOVEDE!` },
  if (listening) recognition.start();
  };
 })();
-
 // ================== POPOLNOMA SAMODEJNI UPDATE (brez vprašanja – samo prenese novo verzijo) ==================
 (function() {
  const DANES = new Date().toISOString().split('T')[0];
@@ -1123,6 +1154,303 @@ Odpri jo in uživaj v novostih! 🚀😎
  }
  }, 10000); // počaka 10 sekund po zagonu
 })();
+
+// Počakamo, da se vsi glasovi naložijo (to je ključno!)
+let voicesLoaded = false;
+speechSynthesis.onvoiceschanged = () => {
+ voicesLoaded = true;
+};
+
+function speak(text) {
+ // Prekliči morebitno trenutno govorjenje
+ speechSynthesis.cancel();
+
+ // Počakaj, da se glasovi naložijo (brez tega pogosto ne najde sl-SI)
+ if (!voicesLoaded) {
+ setTimeout(() => speak(text), 500); // poskusi ponovno čez pol sekunde
+ return;
+ }
+
+ const utterance = new SpeechSynthesisUtterance(text);
+ 
+ // Poišči slovenski glas – po vrsti poskusi najboljše možnosti
+ const voices = speechSynthesis.getVoices();
+ let selectedVoice = voices.find(v => v.lang === 'sl-SI') || // natančen slovenski
+ voices.find(v => v.lang.startsWith('sl')) || // kakršenkoli slovenski
+ voices.find(v => v.name.toLowerCase().includes('sloven')) || // po imenu
+ voices.find(v => v.default); // če nič, vsaj privzeti
+
+ if (selectedVoice) {
+ utterance.voice = selectedVoice;
+ utterance.lang = selectedVoice.lang; // forsiraj jezik
+ } else {
+ // Če res ni slovenskega glasu, vsaj nastavi jezik na sl-SI (nekateri brskalniki ga potem simulirajo)
+ utterance.lang = 'sl-SI';
+ }
+
+ // Nastavitve za bolj naraven govor
+ utterance.rate = 0.9; // malo počasneje
+ utterance.pitch = 1.1; // malo višje (bolj prijetno)
+ utterance.volume = 1.0;
+
+ // Vizualni feedback na gumbu
+ const btn = document.querySelector('.actionBtn[onclick="speakLastMessage()"]');
+ if (btn) {
+ utterance.onstart = () => btn.innerHTML = '🔊🔥';
+ utterance.onend = () => btn.innerHTML = '🔊';
+ utterance.onerror = () => btn.innerHTML = '🔊❌';
+ }
+
+ speechSynthesis.speak(utterance);
+}
+
+// Govori zadnji Gorkov odgovor (ostane enako)
+function speakLastMessage() {
+ const messages = document.querySelectorAll('.gork');
+ if (messages.length === 0) return;
+
+ const lastGork = messages[messages.length - 1];
+ let text = lastGork.textContent || lastGork.innerText;
+
+ // Očisti besedilo za govor
+ text = text.replace(/^Gork:?/i, '').trim(); // odstrani "Gork:"
+ text = text.replace(/[\u{1F300}-\u{1F6FF}\u{1F600}-\u{1F64F}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, ''); // emojiji
+
+ if (text.length > 0) {
+ speak(text);
+ }
+}
+// ================== POENOSTAVLJEN IZBOLJŠANI SPOMIN (samo prilepi pred </body>) ==================
+
+let spomin = JSON.parse(localStorage.getItem("gork_spomin_simple") || "[]");
+
+// Če je prazen, dodaj primer
+if (spomin.length === 0) {
+ spomin = [
+ {kat: "Osebno", vsebina: "Si kul uporabnik in rad nadgrajuješ Gorka 😊"},
+ {kat: "Hobiji", vsebina: "Programiranje ti je najljubše."}
+ ];
+ localStorage.setItem("gork_spomin_simple", JSON.stringify(spomin));
+}
+
+function shraniSpomin() {
+ localStorage.setItem("gork_spomin_simple", JSON.stringify(spomin));
+}
+
+// Dodaj nov spomin
+function dodajSpomin(kategorija, tekst) {
+ if (!tekst) return false;
+ spomin.push({kat: kategorija || "Splošno", vsebina: tekst});
+ shraniSpomin();
+ return true;
+}
+
+// Išči po spominu
+function poisciSpomin(beseda) {
+ if (!beseda) return [];
+ const mali = beseda.toLowerCase();
+ return spomin.filter(s => 
+ s.vsebina.toLowerCase().includes(mali) || 
+ s.kat.toLowerCase().includes(mali)
+ );
+}
+
+// Prikaz vsega
+function prikaziVse() {
+ if (spomin.length === 0) return "Še ničesar nisem zapomnil za vedno 🤗";
+ 
+ let txt = "<b>Gork:</b> Tvoj spomin:<br><br>";
+ spomin.forEach((s, i) => {
+ txt += `<b>${i+1}.</b> [${s.kat}] ${s.vsebina}<br>`;
+ });
+ return txt;
+}
+
+// Izbriši po številki
+function izbrisiSpomin(st) {
+ if (st > 0 && st <= spomin.length) {
+ spomin.splice(st - 1, 1);
+ shraniSpomin();
+ return true;
+ }
+ return false;
+}
+
+// Hook v send() funkcijo – poišči v svoji kodi funkcijo send() in pred API klic (kjer imaš systemPrompt) dodaj to vrstico:
+// (Če je ne najdeš, jo kar pusti – spomin bo delal za ukaze, kontekst pa ne)
+let kontekstSpomin = "";
+const najdeni = poisciSpomin(msg);
+if (najdeni.length > 0) {
+ kontekstSpomin = "\n\nPomembni spomini o uporabniku:\n" + najdeni.map(s => `[${s.kat}] ${s.vsebina}`).join("\n");
+}
+// Potem v systemPrompt dodaj ${kontekstSpomin} na konec (ali pa kar ignoriraj, če ne najdeš – ukazi bodo še vedno delali)
+
+// Novi ukazi – to kar prilepi v send(), takoj za handleMemoryCommands(msg);
+if (msg.toLowerCase().startsWith("zapomni si za vedno")) {
+ const del = msg.substring(19).trim().split("|");
+ const kat = del.length > 1 ? del[0].trim() : "Splošno";
+ const tekst = del.length > 1 ? del[1].trim() : del[0].trim();
+ 
+ if (tekst && dodajSpomin(kat, tekst)) {
+ addMessage(`<b>Gork:</b> Zapomnil sem: <b>${kat}</b> → ${tekst} 💾😊`, "gork");
+ } else {
+ addMessage("<b>Gork:</b> Povej mi kaj zapomnit (npr. 'zapomni si za vedno Hobiji | Rad tečem')", "gork");
+ }
+ // return; // odstrani če hočeš nadaljevanje pogovora
+}
+
+if (msg.toLowerCase().includes("pokaži mi spomin") || msg.toLowerCase() === "moj spomin") {
+ addMessage(prikaziVse(), "gork");
+ // return;
+}
+
+if (msg.toLowerCase().startsWith("pozabi iz spomina")) {
+ const st = parseInt(msg.match(/\d+/)?.[0]);
+ if (st && izbrisiSpomin(st)) {
+ addMessage(`<b>Gork:</b> Izbrisal sem spomin št. ${st} 🗑️`, "gork");
+ } else {
+ addMessage("<b>Gork:</b> Povej številko iz 'pokaži mi spomin'", "gork");
+ }
+ // return;
+}
+
+let opomniki = JSON.parse(localStorage.getItem("gork_opomniki") || "[]");
+
+function shrani() {
+ localStorage.setItem("gork_opomniki", JSON.stringify(opomniki));
+}
+
+// Dovoljenje za obvestila
+if (Notification.permission === "default") Notification.requestPermission();
+
+// Preverjaj opomnike
+setInterval(() => {
+ const now = Date.now();
+ opomniki = opomniki.filter(o => {
+ if (now >= o.time) {
+ if (Notification.permission === "granted") {
+ new Notification("🔔 Gork opomnik", { body: o.msg });
+ }
+ addMessage(`<b>Gork opomnik:</b> ${o.msg} 🔔⏰`, "gork");
+ return false;
+ }
+ return true;
+ });
+ shrani();
+}, 1000);
+
+// Parsanje
+function getTime(text) {
+ const now = new Date();
+ const low = text.toLowerCase();
+
+ let m = low.match(/čez\s+(\d+)\s*(minut|min|ur|uro)/);
+ if (m) {
+ let mins = parseInt(m[1]);
+ if (m[2].startsWith('u')) mins *= 60;
+ return now.getTime() + mins * 60000;
+ }
+
+ m = low.match(/ob\s+(\d{1,2}):?(\d{0,2})/);
+ if (m) {
+ let h = parseInt(m[1]);
+ let min = m[2] ? parseInt(m[2]) : 0;
+ let d = new Date();
+ d.setHours(h, min, 0, 0);
+ if (d.getTime() < now.getTime()) d.setDate(d.getDate() + 1);
+ return d.getTime();
+ }
+
+ if (low.includes("jutri")) {
+ let d = new Date();
+ d.setDate(d.getDate() + 1);
+ m = text.match(/ob\s+(\d{1,2}):?(\d{0,2})/);
+ if (m) {
+ d.setHours(parseInt(m[1]), m[2] ? parseInt(m[2]) : 0, 0, 0);
+ return d.getTime();
+ }
+ }
+ return null;
+}
+
+// PRESTREZI POŠILJANJE SPOROČILA
+const originalClick = document.getElementById("send").onclick;
+const originalKeypress = document.getElementById("msg").onkeypress;
+
+document.getElementById("send").onclick = handleReminder;
+document.getElementById("msg").onkeypress = function(e) {
+ if (e.key === "Enter") handleReminder();
+};
+
+function handleReminder() {
+ const input = document.getElementById("msg");
+ let msg = input.value.trim();
+ if (!msg) return;
+
+ let low = msg.toLowerCase();
+
+ if (low.includes("opomni me")) {
+ const time = getTime(msg);
+ if (time) {
+ let text = msg.replace(/opomni me/i, "").replace(/čez.*/i, "").replace(/ob.*/i, "").replace(/jutri.*/i, "").trim();
+ if (!text) text = "Čas je! ⏰";
+
+ opomniki.push({time: time, msg: text});
+ shrani();
+
+ let when = new Date(time).toLocaleString("sl-SI", {hour:"2-digit", minute:"2-digit", day:"numeric", month:"long"});
+ addMessage(`<b>Gork:</b> V redu! Opomnil te bom <b>${when}</b>:<br>"${text}" 🔔😊`, "gork");
+
+ input.value = "";
+ return false; // prepreči normalno pošiljanje
+ } else {
+ addMessage("<b>Gork:</b> Nisem razumel časa. Primeri:<br>• opomni me čez 5 minut, da pokličem mamo<br>• opomni me ob 15:30, da vzamem pico<br>• jutri ob 9h mi reci: Sestanek", "gork");
+ input.value = "";
+ return false;
+ }
+ }
+
+ if (low === "pokaži opomnike" || low === "opomniki") {
+ if (opomniki.length === 0) {
+ addMessage("<b>Gork:</b> Nimaš nobenega opomnika 😴", "gork");
+ } else {
+ let list = "<b>Gork:</b> Aktivni opomniki:<br><br>";
+ opomniki.forEach((o, i) => {
+ list += `${i+1}. <b>${new Date(o.time).toLocaleString("sl-SI")}</b> → ${o.msg}<br>`;
+ });
+ addMessage(list, "gork");
+ }
+ input.value = "";
+ return false;
+ }
+
+ if (low === "prekliči opomnike") {
+ opomniki = [];
+ shrani();
+ addMessage("<b>Gork:</b> Vsi opomniki preklicani 🗑️", "gork");
+ input.value = "";
+ return false;
+ }
+
+ // Če ni reminder ukaz, nadaljuj normalno
+ if (originalClick) originalClick();
+ if (originalKeypress) originalKeypress.call(this, e);
+}
 </script>
 </body>
 </html>
+<div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;">Copyright &copy; 2025 Verdnik Tomaž--bobi57610416 (brosmarija-bit). Vse pravice pridržane.<br />
+Kopiranje, distribucija ali predelava kode brez pisnega dovoljenja avtorja je prepovedana.<br />
+Kontakt: brosmarija@gmail.com | GitHub: https://github.com/brosmarija-bit/gork-ai</div>
+
+<div style="text-align:center; font-size:11px; color:#666; margin-top:20px; opacity:0.7;">&copy; 2025 Verdnik Tomaž-bobi57610416 (brosmarija-bit). Vse pravice pridržane. | Kontakt: brosmarija@gmail.com</div>
+
+<p style="text-align: center;"><b>Gork:</b> &copy; 2025 Verdnik Tomaž<br />
+Licenca: CC BY-NC-ND 4.0<br />
+Nekomercialna uporaba, brez predelav 😊<br />
+Več: <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.sl" target="_blank">creativecommons.org</a>&quot;, &quot;gork&quot;</p>
+<style type="text/css">@keyframes glow2 {
+ from { box-shadow: 0 0 80px #00ff00; }
+ to { box-shadow: 0 0 120px #00ff00; }
+}
+</style>
